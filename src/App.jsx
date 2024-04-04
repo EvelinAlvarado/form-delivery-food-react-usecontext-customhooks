@@ -1,14 +1,17 @@
-import { MainSpace, ImageSpace, FormSpace } from "./styles";
+import { MainSpace, ImageSpace, FormSpace, GlobalStyle } from "./styles";
 import Form from "./Form";
 
 function App() {
   return (
-    <MainSpace>
-      <ImageSpace />
-      <FormSpace>
-        <Form />
-      </FormSpace>
-    </MainSpace>
+    <>
+      <GlobalStyle />
+      <MainSpace>
+        <ImageSpace />
+        <FormSpace>
+          <Form />
+        </FormSpace>
+      </MainSpace>
+    </>
   );
 }
 
