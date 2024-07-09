@@ -6,7 +6,7 @@ const Step = ({ data, step }) => {
   return (
     <Box
       component="form"
-      autocomplete="off"
+      autoComplete="off"
       sx={{
         display: "flex",
         alignItems: "center",
