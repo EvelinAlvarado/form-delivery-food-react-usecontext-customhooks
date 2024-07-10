@@ -1,7 +1,12 @@
 import { TextField, Button, Box } from "@mui/material";
+import { useContext } from "react";
+import { CounterContext } from "../../Context";
 
-const Step = ({ data, step }) => {
+const Step = ({ data, step, newSteps }) => {
   const { inputs, buttonText, onSubmit } = data;
+
+  /* const counterData = useContext(CounterContext);
+  console.log(counterData); */
 
   return (
     <Box
@@ -13,8 +18,9 @@ const Step = ({ data, step }) => {
         justifyContent: "center",
         flexDirection: "column",
       }}
-      onSubmit={onSubmit}
+      onSubmit={(e) => onSubmit(e, step, newSteps)}
     >
+      {/* <strong>The value is: {counterData.count}</strong> */}
       {inputs.map((input, i) => {
         const {
           label,
@@ -35,9 +41,9 @@ const Step = ({ data, step }) => {
             margin="dense"
             type={type}
             error={validate === false}
-            helperText={validate === false && { helperText }}
+            helperText={validate === false && helperText}
             value={value}
-            onChange={(e) => onChange(e, i, step, validator)}
+            onChange={(e) => onChange(e, i, step, validator, newSteps)}
           />
         );
       })}

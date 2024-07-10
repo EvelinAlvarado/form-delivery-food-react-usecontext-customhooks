@@ -45,26 +45,36 @@ const Form = () => {
 
   // --------WAY 3--------
 
-  useEffect(() => {
-    console.log("use effect");
-  });
-
-  const onSubmit = (e) => {
+  const onSubmit = (e, step, newSteps) => {
+    console.log("step", step);
     e.preventDefault();
     let nextStep = step + 1;
-    setStep(nextStep);
     console.log("nextStep", nextStep);
-    console.log("step", step);
+    setStep(nextStep);
+    if (nextStep === 3) {
+      console.log("Sending data to backend", newSteps);
+    }
   };
 
-  const handleChange = (element, position, currentStep, validator) => {
+  const handleChange = (
+    element,
+    position,
+    currentStep,
+    validator,
+    newSteps
+  ) => {
     const value = element.target.value;
-    const validate = validator(value);
+    const valid = validator(value);
     console.log(value);
-    console.log(validate);
+    console.log(valid);
     console.log("position: ", position);
     console.log("currentStep: ", currentStep);
     console.log("validator: ", validator);
+    const cp = { ...newSteps };
+    cp[currentStep].inputs[position].value = value;
+    cp[currentStep].inputs[position].validate = valid;
+
+    setNewSteps(cp);
   };
 
   const stepsFlow = {
@@ -81,7 +91,7 @@ const Form = () => {
         },
         {
           label: "Password",
-          type: "email",
+          type: "text",
           value: "",
           validate: null,
           onChange: handleChange,
@@ -163,6 +173,10 @@ const Form = () => {
     },
   };
 
+  useEffect(() => {
+    setNewSteps(stepsFlow);
+  }, []);
+
   return (
     <Box
       sx={{
@@ -178,7 +192,11 @@ const Form = () => {
       <FormSpace>
         {step < 3 && <StepperComponent step={step} />}
         {/* {steps[step]} */} {/* ---WAY 2----- */}
-        <Step data={stepsFlow[step]} step={step} /> {/* ---WAY 3----- */}
+        {/* ---WAY 3----- */}
+        {step < 3 && newSteps[step] && (
+          <Step data={newSteps[step]} step={step} newSteps={newSteps} />
+        )}
+        {step === 3 && <Complete />}
       </FormSpace>
     </Box>
   );
